@@ -20,6 +20,8 @@ EOS = '<eos>'
 DEVICE = 'cuda:0'
 seed = 37
 
+# https://github.com/facebookresearch/higher/blob/main/examples/maml-omniglot.py
+# https://github.com/HAHA-DL/MLDG
 
 class MetaLearner(nn.Module):
     def __init__(self):

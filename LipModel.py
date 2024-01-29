@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import math
 import numpy as np
-from resnet import ResNet, BasicBlock, Swish
+from resnet import ResNet, BasicBlock
 from resnet1D import ResNet1D, BasicBlock1D
 from shufflenetv2 import ShuffleNetV2
 from tcn import MultibranchTemporalConvNet, TemporalConvNet
@@ -114,7 +114,7 @@ class Lipreading(nn.Module):
             elif relu_type == 'prelu':
                 frontend_relu = nn.PReLU(self.frontend_nout)
             elif relu_type == 'swish':
-                frontend_relu = Swish()
+                frontend_relu = nn.SiLU()
 
             self.frontend3D = nn.Sequential(
                 nn.Conv3d(1, self.frontend_nout, kernel_size=(5, 7, 7), stride=(1, 2, 2), padding=(2, 3, 3),

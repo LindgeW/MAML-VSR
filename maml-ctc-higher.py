@@ -18,6 +18,8 @@ BOS = '<bos>'
 EOS = '<eos>'
 DEVICE = 'cuda:1'
 
+# https://github.com/facebookresearch/higher/blob/main/examples/maml-omniglot.py
+# https://github.com/HAHA-DL/MLDG
 
 class MetaLearner(nn.Module):
     def __init__(self, vocab_size, dropout=0.5):
