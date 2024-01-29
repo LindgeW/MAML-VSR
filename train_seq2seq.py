@@ -235,9 +235,9 @@ if __name__ == '__main__':
     #evaluate('checkpoints/grid3/seq2seq_iter_30.pt', r'E:\GRID\LIP_160_80\lip\s20', batch_size=50)
     #evaluate('checkpoints/grid3/seq2seq_iter_30.pt', r'E:\GRID\LIP_160_80\lip\s22', batch_size=50)
 
+
     adapt('checkpoints/grid3/seq2seq_iter_30.pt', r'E:\GRID\LIP_160_80\lip\s22', lr=1e-4, epochs=50, batch_size=10)
     #evaluate('checkpoints/adapt_grid/seq2seq_iter_50.pt', r'E:\GRID\LIP_160_80\lip\s1', batch_size=50)
     #evaluate('checkpoints/adapt_grid/seq2seq_iter_50.pt', r'E:\GRID\LIP_160_80\lip\s2', batch_size=50)
     #evaluate('checkpoints/adapt_grid/seq2seq_iter_50.pt', r'E:\GRID\LIP_160_80\lip\s20', batch_size=50)
     evaluate('checkpoints/adapt_grid/seq2seq_iter_50.pt', r'E:\GRID\LIP_160_80\lip\s22', batch_size=50)
-

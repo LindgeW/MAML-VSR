@@ -230,4 +230,3 @@ if __name__ == '__main__':
     #evaluate('checkpoints/adapt_grid/vanilla_iter_50.pt', r'E:\GRID\LIP_160_80\lip\s2', batch_size=50)
     #evaluate('checkpoints/adapt_grid/vanilla_iter_50.pt', r'E:\GRID\LIP_160_80\lip\s20', batch_size=50)
     evaluate('checkpoints/adapt_grid/vanilla_iter_50.pt', r'E:\GRID\LIP_160_80\lip\s22', batch_size=50)
-
