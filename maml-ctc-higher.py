@@ -79,9 +79,8 @@ class Task(object):  # Speaker
         # qry_size = int(len(self.data) * 0.2)
         # self.qry_set = self.data[:qry_size]
         # self.sup_set = self.data[qry_size:]
-        # self.char_dict = [PAD] + [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'] + [EOS, BOS]  # 30
         self.char_dict = [PAD] + [' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-                                  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']  # 28 = 26 + pad + space
+                                  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']  # 28 
         self.max_vid_len = 75
         self.max_txt_len = 50
 
