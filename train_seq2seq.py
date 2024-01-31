@@ -38,7 +38,8 @@ class MetaLearner(nn.Module):
 def HorizontalFlip(video_imgs, p=0.5):
     # (T, C, H, W)
     if np.random.random() < p:
-        video_imgs = video_imgs[..., ::-1].copy()
+        #video_imgs = video_imgs[..., ::-1].copy()
+        video_imgs = np.flip(video_imgs, -1)
     return video_imgs
 
 
