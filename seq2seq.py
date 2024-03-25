@@ -16,12 +16,13 @@ class PositionEmbedding(nn.Module):
 
     def forward(self, x):
         embeddings = self.weight(x)
-        return embeddings
+        return x+embeddings
 
 
 class PositionalEncoding(nn.Module):
-    def __init__(self, d_model, max_len=200):
+    def __init__(self, d_model, max_len=200, dropout=0.1):
         super(PositionalEncoding, self).__init__()
+        self.dropout = nn.Dropout(dropout)
         position = torch.arange(0, max_len, dtype=torch.float32).unsqueeze(1)  # (max_len, 1)
         div_term = torch.exp(torch.arange(0, d_model, 2, dtype=torch.float32) * -(math.log(10000.0) / d_model))
         pe = torch.zeros(max_len, d_model)  # (max_len, d_model)
@@ -30,8 +31,8 @@ class PositionalEncoding(nn.Module):
         pe = pe.unsqueeze(0)  # (1, max_len, d_model)
         self.register_buffer("pe", pe)
 
-    def forward(self, L):
-        return self.pe[:, :L].detach()
+    def forward(self, x):  # (B, L, D)
+        return self.dropout(x + self.pe[:, :x.size(1)])
 
 
 class MultiHeadAttentionLayer(nn.Module):
@@ -529,8 +530,7 @@ class Encoder(nn.Module):
         B, T = x.shape[0], x.shape[1]
         x = x.transpose(1, 2).contiguous()  # (b, c, t, h, w)
         feat = self.visual_front(x)
-        pos_embed = self.pos_embedding(T)
-        src = self.dropout(feat + pos_embed)
+        src = self.pos_embedding(feat)
         #src = self.dropout(feat + pos_embed + self.code.unsqueeze(0))
         src_mask = self.get_mask_from_lengths(src_lens, T).unsqueeze(1).unsqueeze(2)  # (b, 1, 1, t)
         #cmb_mask = torch.cat(((torch.ones(src_mask.shape[0], 1, 1, 5) == 1).to(src_mask.device), src_mask), dim=-1)
@@ -590,8 +590,7 @@ class Encoder2(nn.Module):
         B, T = x.shape[0], x.shape[1]
         x = x.transpose(1, 2).contiguous()  # (b, c, t, h, w)
         feat = self.visual_front(x)
-        pos_embed = self.pos_embedding(T)
-        src = self.dropout(feat + pos_embed)
+        src = self.pos_embedding(feat)
         # src = [batch size, src len, hid dim]
         src_mask = self.get_mask_from_lengths(src_lens, T)  # (b, t)
         src = self.encoder(src, src_key_padding_mask=~src_mask)  # True for padding, and False for valid value
@@ -642,12 +641,11 @@ class Decoder(nn.Module):
         # enc_src = [batch size, src len, hid dim]
         # tgt_mask = [batch size, 1, tgt len, tgt len]
         # src_mask = [batch size, 1, 1, src len]
-        bs, tgt_len = tgt.shape[0], tgt.shape[1]
-
+        
         tgt_mask = self.make_tgt_mask(tgt)  # [batch size, 1, tgt len, tgt len]
 
-        pos_embed = self.pos_embedding(tgt_len)
-        tgt = self.dropout((self.tok_embedding(tgt) * self.hid_dim ** 0.5) + pos_embed)
+        tgt = self.tok_embedding(tgt) * (self.hid_dim ** 0.5)
+        tgt = self.pos_embedding(tgt)
         # tgt = [batch size, tgt len, hid dim]
 
         for layer in self.layers:
