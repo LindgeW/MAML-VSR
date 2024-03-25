@@ -5,7 +5,8 @@ import math
 from conformer import Conformer
 from batch_beam_search import beam_decode
 
- # https://pytorch.org/tutorials/beginner/transformer_tutorial.html
+# https://pytorch.org/tutorials/beginner/transformer_tutorial.html
+# https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html
 
 class PositionEmbedding(nn.Module):
     def __init__(self, num_embeddings, embedding_dim):
